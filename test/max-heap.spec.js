@@ -67,6 +67,11 @@ describe('MaxHeap', () => {
 				new Node(4, 4),
 				new Node(5, 5),
 				new Node(6, 6),
+				new Node(7, 7),
+				new Node(8, 8),
+				new Node(9, 9),
+				new Node(10, 10),
+				new Node(11, 11),
 			];
 
 			nodes.forEach(node => {
@@ -137,13 +142,13 @@ describe('MaxHeap', () => {
 			h.root.appendChild(new Node(2, 7));
 			h.root.left.appendChild(new Node(3, 20));
 
-/**
-        10                       20
-       /  \                     /  \
-      5    7  - shift up ->   10   7
-     /                        /
-    20                       5
-**/
+			/**
+			        10                       20
+			       /  \                     /  \
+			      5    7  - shift up ->   10   7
+			     /                        /
+			    20                       5
+			**/
 
 			h.parentNodes = [
 				h.root.left,
@@ -340,23 +345,23 @@ describe('MaxHeap', () => {
 		});
 
 		it('should maintain correct order of parentNodes when right child is moved', () => {
-			h.push(14,14);
-			h.push(13,13);
-			h.push(16,16);
-			h.push(12,12);
+			h.push(14, 14);
+			h.push(13, 13);
+			h.push(16, 16);
+			h.push(12, 12);
 
-/**
-           32                             12
-          /  \                           /  \
-        15    16   - restoreRoot ->    15   16
-       /  \  /  \                    /  \  /
-     14  13  0   12                14  13  0
- **/
+			/**
+			           32                             12
+			          /  \                           /  \
+			        15    16   - restoreRoot ->    15   16
+			       /  \  /  \                    /  \  /
+			     14  13  0   12                14  13  0
+			 **/
 
 			const detached = h.detachRoot();
 			h.restoreRootFromLastInsertedNode(detached);
 
-			expect(h.parentNodes.map(n=>n.priority)).to.deep.equal([16,14,13,0]);
+			expect(h.parentNodes.map(n => n.priority)).to.deep.equal([16, 14, 13, 0]);
 		});
 
 	});
@@ -372,13 +377,13 @@ describe('MaxHeap', () => {
 			h.root.appendChild(new Node(2, 7));
 			h.root.left.appendChild(new Node(3, 5));
 
-/**
-          3                        20
-        /  \                      /  \
-      20    7  - shift down ->   5    7
-     /                          /
-    5                          3
-**/
+			/**
+			          3                        20
+			        /  \                      /  \
+			      20    7  - shift down ->   5    7
+			     /                          /
+			    5                          3
+			**/
 
 			h.parentNodes = [
 				h.root.left,
@@ -410,36 +415,36 @@ describe('MaxHeap', () => {
 			expect(h.parentNodes[2]).to.equal(correctParentNodesOrderAfterShiftUp[2]);
 		});
 
-        it('shifts node down in right direction', () => {
-            h = new MaxHeap();
+		it('shifts node down in right direction', () => {
+			h = new MaxHeap();
 
-            let newRoot = new Node(20, 20);
-            let newDeepest = new Node(1, 1);
+			let newRoot = new Node(20, 20);
+			let newDeepest = new Node(1, 1);
 
-            h.root = newDeepest;
-            h.root.appendChild(new Node(10, 10));
-            h.root.appendChild(newRoot);
-            h.root.left.appendChild(new Node(5, 5));
-            h.root.left.appendChild(new Node(8, 8));
-            h.root.right.appendChild(new Node(11, 11));
-            h.root.right.appendChild(new Node(6, 6));
+			h.root = newDeepest;
+			h.root.appendChild(new Node(10, 10));
+			h.root.appendChild(newRoot);
+			h.root.left.appendChild(new Node(5, 5));
+			h.root.left.appendChild(new Node(8, 8));
+			h.root.right.appendChild(new Node(11, 11));
+			h.root.right.appendChild(new Node(6, 6));
 
-            h.parentNodes = [h.root.left.left, h.root.left.right, h.root.right.left, h.root.right.right];
+			h.parentNodes = [h.root.left.left, h.root.left.right, h.root.right.left, h.root.right.right];
 
-/**
-            1                             20
-          /  \                           /  \
-        10    20   - shiftDown ->      10   11
-       /  \  /  \                    /  \  /  \
-     5    8 11  6                   5   8 1   6
- **/
+			/**
+			            1                             20
+			          /  \                           /  \
+			        10    20   - shiftDown ->      10   11
+			       /  \  /  \                    /  \  /  \
+			     5    8 11  6                   5   8 1   6
+			 **/
 
-            h.shiftNodeDown(h.root);
+			h.shiftNodeDown(h.root);
 
-            expect(h.root).to.equal(newRoot);
-            expect(h.root.right.left).to.equal(newDeepest);
-            expect(h.parentNodes.map(n=>n.priority)).to.deep.equal([5,8,1,6]);
-        });
+			expect(h.root).to.equal(newRoot);
+			expect(h.root.right.left).to.equal(newDeepest);
+			expect(h.parentNodes.map(n => n.priority)).to.deep.equal([5, 8, 1, 6]);
+		});
 
 		it('calls Node.swapWithParent', () => {
 			const firstNodeToSwapWith = h.root.left;
